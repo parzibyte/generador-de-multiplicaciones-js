@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="twitter:image" content="https://parzibyte.me/apps/generador-de-multiplicaciones/captura.png" />
+    <meta name="twitter:description" content="Generador de multiplicaciones para primaria. Ejercicios de matemáticas" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="description" content="Generador de multiplicaciones para primaria. Ejercicios de matemáticas">
+    <meta property="og:image" content="https://parzibyte.me/apps/generador-de-multiplicaciones/captura.png" />
+    <meta property="og:locale" content="es_LA" />
+    <meta property="og:url" content="https://parzibyte.me/apps/generador-de-multiplicaciones" />
+    <meta property="og:site_name" content="Parzibyte.me" />
+    <meta property="og:title" content="Generador de multiplicaciones online" />
+    <meta property="og:description" content='Generador de multiplicaciones para primaria. Ejercicios de matemáticas' />
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Generador de multiplicaciones online</title>
+</head>
+<!--
+  * Generador de multiplicaciones con JavaScript, MathJax, Vue.js y BulmaCSS
+  * 
+  * Visita: https://parzibyte.me/blog
+  * @author parzibyte
+-->
+
+<body>
+    <div class="section" style="padding-top: 0 !important;" id="app">
+        <div class="container">
+            <div class="columns oculto-impresion">
+                <div class="column container">
+                    <h1 class="is-size-1">Generador de multiplicaciones</h1>
+                    <a href="//parzibyte.me/blog" target="_blank">By Parzibyte</a>
+                    <br>
+                    <div class="field">
+                        <div class="control">
+                            <label class="label" for="">Título</label>
+                            <input placeholder="Título" type="text" class="input" v-model="titulo">
+                        </div>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <label class="label">Columnas</label>
+                            <div class="control">
+                                <input class="input" type="number" v-model.number="columnas" placeholder="No. de columnas">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Multiplicaciones por columna</label>
+                            <div class="control">
+                                <input class="input" type="number" v-model.number="multiplicacionesPorColumna" placeholder="Multiplicaciones por columna">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <label class="label">Rango inicio de multiplicando</label>
+                            <div class="control">
+                                <input class="input" type="number" v-model.number="rangos.multiplicando.inicio" placeholder="Rango inicio de multiplicando">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Rango fin de multiplicando</label>
+                            <div class="control">
+                                <input class="input" type="number" v-model.number="rangos.multiplicando.fin" placeholder="Rango fin de multiplicando">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Rango inicio de multiplicador</label>
+                            <div class="control">
+                                <input class="input" type="number" v-model.number="rangos.multiplicador.inicio" placeholder="Rango inicio de multiplicador">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Rango fin de multiplicador</label>
+                            <div class="control">
+                                <input class="input" type="number" v-model.number="rangos.multiplicador.fin" placeholder="Rango fin de multiplicador">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <br>
+                        <button :class="{'is-loading': cargando}" @click="generar" class="button is-success">Generar</button>
+                        <button :class="{'is-loading': cargando}" @click="imprimir" class="button is-info">Imprimir</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div v-show="multiplicaciones.length > 0" class="columns">
+            <div class="column">
+                <strong>{{titulo}}</strong>
+                <p>Generador de multiplicaciones programado con ❤️ por <strong>Parzibyte</strong><i> [ parzibyte.me/blog ]</i></p>
+            </div>
+        </div>
+        <div v-show="multiplicaciones.length > 0" class="columns" style="padding: 0; margin:0;">
+            <div class="column" style="padding: 0; margin:0;" v-for="columna in multiplicaciones">
+                <p v-for="multiplicacion in columna">
+
+                    \begin{align} {{multiplicacion.multiplicando}} \\ \times {{multiplicacion.multiplicador}} \\ \hline \\ \end{align}
+
+                </p>
+            </div>
+        </div>
+    </div>
+    <footer class="footer oculto-impresion">
+        <div class="content has-text-centered">
+            <p>
+                <strong>Generador de multiplicaciones online para primaria</strong> creado y mantenido con ❤️ por <a target="_blank" href="//parzibyte.me/blog/">Luis
+                    Cabrera Benito aka parzibyte</a>.
+                <br> Si lo deseas, visita el
+                <a href="https://github.com/parzibyte/generador-de-multiplicaciones-js">
+                  repositorio online
+                </a> .<br> También puedes seguirme en
+                <br>
+
+                <a href="https://twitter.com/parzibyte" target="_blank">
+                    Twitter
+                </a>
+                <a href="https://facebook.com/parzibyte.fanpage" target="_blank">
+                    Facebook
+                </a>
+                <a href="https://github.com/parzibyte" target="_blank">
+                    Github
+                </a>
+                <a href="https://t.me/parzibyte_channel" target="_blank">
+                    Telegram
+                </a>
+            </p>
+        </div>
+    </footer>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js"></script>
+<script src="script.js"></script>
+
+</html>

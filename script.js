@@ -25,7 +25,7 @@ new Vue({
     }),
     methods: {
         aleatorio(minimo, maximo) {
-            return Math.floor(Math.random() * (maximo - minimo + 1)) + this.rangos.multiplicando.inicio;
+            return Math.floor(Math.random() * (maximo - minimo + 1)) + minimo;
         },
         aleatorioMultiplicando() {
             return this.aleatorio(this.rangos.multiplicando.inicio, this.rangos.multiplicando.fin);
